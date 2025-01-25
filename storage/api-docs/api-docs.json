@@ -1,0 +1,577 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "VocabVault API Documentation",
+        "description": "API documentation for Word and Story management in VocabVault application",
+        "contact": {
+            "name": "API Support",
+            "email": "your-email@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "VocabVault API Server"
+        }
+    ],
+    "paths": {
+        "/exercises": {
+            "get": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Get random exercise questions",
+                "operationId": "e403746fa65c82d6f4967a4e35dfdc42",
+                "parameters": [
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "Language selection (0: Turkish, 1: English)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "question_count",
+                        "in": "query",
+                        "description": "Number of questions to generate",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of exercise questions"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/stories": {
+            "get": {
+                "tags": [
+                    "Stories"
+                ],
+                "summary": "List all stories",
+                "operationId": "2d1c549971d4314da45dc5ea797c02f0",
+                "responses": {
+                    "200": {
+                        "description": "List of all stories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            },
+                                            "current_page": {
+                                                "type": "integer"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Stories"
+                ],
+                "summary": "Create a new story",
+                "operationId": "f51118e4ce16040aa5bf0bb08cdc904d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "current_page": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Story created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/stories/{id}": {
+            "get": {
+                "tags": [
+                    "Stories"
+                ],
+                "summary": "Get a specific story",
+                "operationId": "3a387fa38d7637bd71d6a25d497520e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Story ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Story details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Story not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Stories"
+                ],
+                "summary": "Update a specific story",
+                "operationId": "1f609948640efd0c2c6edfd1c7cd3523",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Story ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "current_page": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Story updated successfully"
+                    },
+                    "404": {
+                        "description": "Story not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Stories"
+                ],
+                "summary": "Delete a specific story",
+                "operationId": "d63f4de41b8002b968d45611f58f2b57",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Story ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Story deleted successfully"
+                    },
+                    "404": {
+                        "description": "Story not found"
+                    }
+                }
+            }
+        },
+        "/words": {
+            "get": {
+                "tags": [
+                    "Words"
+                ],
+                "summary": "List all words",
+                "operationId": "6a7339184b38b143b73423dc8b4e2fba",
+                "responses": {
+                    "200": {
+                        "description": "List of all words",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "turkish": {
+                                                "type": "string"
+                                            },
+                                            "english": {
+                                                "type": "string"
+                                            },
+                                            "learning_status": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Words"
+                ],
+                "summary": "Create a new word",
+                "operationId": "259eb2d60b55a2ef396042401fcb4452",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "turkish": {
+                                        "type": "string"
+                                    },
+                                    "english": {
+                                        "type": "string"
+                                    },
+                                    "learning_status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Word created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "turkish": {
+                                            "type": "string"
+                                        },
+                                        "english": {
+                                            "type": "string"
+                                        },
+                                        "learning_status": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/words/{id}": {
+            "get": {
+                "tags": [
+                    "Words"
+                ],
+                "summary": "Get a specific word",
+                "operationId": "5216303d35bbdcd964c83f2b22cfd3e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Word ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Word details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "turkish": {
+                                            "type": "string"
+                                        },
+                                        "english": {
+                                            "type": "string"
+                                        },
+                                        "learning_status": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Word not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Words"
+                ],
+                "summary": "Update a specific word",
+                "operationId": "96dc85f083cb5cf8a68b301c5fb06b52",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Word ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "turkish": {
+                                        "type": "string"
+                                    },
+                                    "english": {
+                                        "type": "string"
+                                    },
+                                    "learning_status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Word updated successfully"
+                    },
+                    "404": {
+                        "description": "Word not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Words"
+                ],
+                "summary": "Delete a specific word",
+                "operationId": "442396037508bb61c3530a0371b3ec10",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Word ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Word deleted successfully"
+                    },
+                    "404": {
+                        "description": "Word not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Exercises",
+            "description": "API Endpoints for Exercise Management"
+        },
+        {
+            "name": "Stories",
+            "description": "API Endpoints of Stories"
+        },
+        {
+            "name": "Words",
+            "description": "API Endpoints of Words"
+        }
+    ]
+}
