@@ -35,7 +35,7 @@ class StoryController extends Controller
      *             type="array",
      *             @OA\Items(
      *                 @OA\Property(property="id", type="integer"),
-     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property=" title", type="string"),
      *                 @OA\Property(property="content", type="string"),
      *                 @OA\Property(property="current_page", type="integer"),
      *                 @OA\Property(property="created_at", type="string", format="datetime"),
@@ -59,7 +59,7 @@ class StoryController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property=" title", type="string"),
      *             @OA\Property(property="content", type="string"),
      *             @OA\Property(property="current_page", type="integer")
      *         )
@@ -69,7 +69,7 @@ class StoryController extends Controller
      *         description="Story created successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property=" title", type="string"),
      *             @OA\Property(property="content", type="string"),
      *             @OA\Property(property="current_page", type="integer"),
      *             @OA\Property(property="created_at", type="string", format="datetime"),
@@ -105,7 +105,7 @@ class StoryController extends Controller
      *         description="Story details",
      *         @OA\JsonContent(
      *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property=" title", type="string"),
      *             @OA\Property(property="content", type="string"),
      *             @OA\Property(property="current_page", type="integer"),
      *             @OA\Property(property="created_at", type="string", format="datetime"),
@@ -130,7 +130,7 @@ class StoryController extends Controller
      *     summary="Update a specific story",
      *     tags={"Stories"},
      *     @OA\Parameter(
-     *         name="id",
+     *          name="id",
      *         in="path",
      *         required=true,
      *         description="Story ID",
@@ -139,7 +139,7 @@ class StoryController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property=" title", type="string"),
      *             @OA\Property(property="content", type="string"),
      *             @OA\Property(property="current_page", type="integer")
      *         )

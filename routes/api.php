@@ -32,7 +32,7 @@ Route::prefix('v1')->group(function () {
     Route::patch('words/{word}/learning-status', [APIWordController::class, 'updateLearningStatus']);
 });
 
-// Word Routes
+// Word Routes    
 Route::prefix('words')->group(function () {
     Route::get('/', [WordController::class, 'index'])->name('words.index');
     Route::post('/', [WordController::class, 'store'])->name('words.store');

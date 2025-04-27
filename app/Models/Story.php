@@ -11,7 +11,7 @@ class Story extends Model
     use HasFactory, softDeletes;
 
     protected $fillable = [
-        'name',
+        'title',
         'content',
         'current_page',
     ];

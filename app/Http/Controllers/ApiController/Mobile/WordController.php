@@ -22,7 +22,6 @@ class WordController extends Controller
     {
         $this->wordService = $wordService;
     }
-
     /**
      * @OA\Get(
      *     path="/words",

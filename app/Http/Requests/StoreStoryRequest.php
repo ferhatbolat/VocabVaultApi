@@ -22,9 +22,9 @@ class StoreStoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'current_page' => 'required|integer'
+            'current_page' => 'nullable|integer'
         ];
     }
 }
