@@ -2,11 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController\Mobile\WordController;
-use App\Http\Controllers\ApiController\Mobile\StoryController;
-use App\Http\Controllers\ApiController\Mobile\ExerciseController;
-use App\Http\Controllers\API\StoryController as APIStoryController;
-use App\Http\Controllers\API\WordController as APIWordController;
+use App\Http\Controllers\API\WordController;
+use App\Http\Controllers\API\StoryController;
+use App\Http\Controllers\API\ExerciseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,16 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function () {
-    // Stories routes
-    Route::apiResource('stories', APIStoryController::class);
+ 
 
-    // Words routes
-    Route::apiResource('words', APIWordController::class);
-    Route::patch('words/{word}/learning-status', [APIWordController::class, 'updateLearningStatus']);
-});
-
-// Word Routes    
+// Word Routes
 Route::prefix('words')->group(function () {
     Route::get('/', [WordController::class, 'index'])->name('words.index');
     Route::post('/', [WordController::class, 'store'])->name('words.store');
