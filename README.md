@@ -63,22 +63,134 @@ GET    /api/exercises/progress - Get progress
 
 ## Installation
 
+### Docker Installation (Recommended)
+
 1. Clone the repository:
 
+```bash
+git clone https://github.com/ferhatbolat/VocabVaultApi.git
+cd VocabVaultApi
 ```
+
+2. Build and start Docker containers:
+
+```bash
+docker-compose up -d --build
+```
+
+3. Install dependencies inside the container:
+
+```bash
+docker-compose exec app composer install
+```
+
+4. Copy environment file and generate app key:
+
+```bash
+docker-compose exec app cp .env.example .env
+docker-compose exec app php artisan key:generate
+```
+
+5. Run migrations:
+
+```bash
+docker-compose exec app php artisan migrate
+```
+
+The application will be available at:
+
+-   **API:** http://localhost:8000
+-   **Database:** localhost:3307 (root/root) - External access
+-   **Database (Internal):** db:3306 (root/root) - Container to container
+
+### Manual Installation
+
+1. Clone the repository:
+
+```bash
 git clone https://github.com/ferhatbolat/VocabVaultApi.git
 ```
 
 2. Install dependencies:
 
-```
+```bash
 composer install
 ```
 
-4. Set up database in `.env`:
+3. Set up database in `.env`:
 
 ```
 DB_DATABASE=vocab_vault //your database
+```
+
+## VS Code Debug Setup
+
+This project is configured for debugging with VS Code and Docker:
+
+### Prerequisites
+
+1. Install VS Code extensions:
+    - PHP Debug
+    - Docker
+    - Laravel Extension Pack (optional)
+
+### Debug Configuration
+
+The project includes pre-configured debug settings:
+
+1. **Launch Configuration** (`.vscode/launch.json`):
+
+    - "Launch Laravel with Docker" - Start debugging session
+    - "Listen for Xdebug" - Listen for debug connections
+
+2. **Tasks** (`.vscode/tasks.json`):
+    - "Docker: Build and Start" - Build and start containers
+    - "Docker: Start" - Start existing containers
+    - "Docker: Stop" - Stop containers
+    - "Laravel: Run Migrations" - Run database migrations
+    - "Laravel: Clear Cache" - Clear application cache
+
+### How to Debug
+
+1. Start Docker containers:
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+2. In VS Code:
+
+    - Press `F5` or go to Run and Debug panel
+    - Select "Launch Laravel with Docker"
+    - Set breakpoints in your PHP code
+    - Make API requests to trigger breakpoints
+
+3. Alternative: Use Command Palette (`Cmd+Shift+P`):
+    - Run "Tasks: Run Task"
+    - Select "Docker: Build and Start"
+
+### Xdebug Configuration
+
+Xdebug is pre-configured with:
+
+-   **Port:** 9003
+-   **IDE Key:** VSCODE
+-   **Client Host:** host.docker.internal
+
+### Useful Docker Commands
+
+```bash
+# View logs
+docker-compose logs -f app
+
+# Access container shell
+docker-compose exec app bash
+
+# Restart containers
+docker-compose restart
+
+# Stop and remove containers
+docker-compose down
 ```
 
 ## API Documentation
@@ -87,27 +199,17 @@ This project uses Swagger UI for API documentation powered by `darkaonline/l5-sw
 
 Access the API documentation:
 
-1. Install dependencies (if not already installed):
+1. Generate documentation (if not already generated):
 
-```
-composer require darkaonline/l5-swagger
-```
-
-2. Publish Swagger assets:
-
-```
-php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider"
+```bash
+docker-compose exec app php artisan l5-swagger:generate
 ```
 
-3. Generate documentation:
+2. View documentation:
 
-```
-php artisan l5-swagger:generate
-```
-
-4. View documentation:
-
--   Local: `http://localhost:8000/api/documentation`
+-   **Swagger UI:** http://localhost:8000/swagger.html
+-   **JSON API Docs:** http://localhost:8000/docs/api-docs.json
+-   **Alternative:** http://localhost:8000/api/documentation (may be slow)
 
 ## Testing
 

@@ -20,14 +20,14 @@
         }
     ],
     "paths": {
-        "/api/auth/social-login": {
+        "/auth/social-login": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Sosyal medya ile giriş/kayıt",
                 "description": "Gmail, Facebook veya Apple ile kullanıcı girişi/kaydı yapar",
-                "operationId": "4feb4ba82b42302797bb5d15a96959aa",
+                "operationId": "bb498a9bc2104025bad07b3ee863fc86",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -179,14 +179,14 @@
                 }
             }
         },
-        "/api/auth/register": {
+        "/auth/register": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Normal kayıt",
                 "description": "Email ve şifre ile yeni kullanıcı kaydı yapar",
-                "operationId": "eb3623f9bcd09a1dacbefaac07aed1bb",
+                "operationId": "c47a1b563e5e8bc3c7b962f893981e84",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -328,14 +328,14 @@
                 }
             }
         },
-        "/api/auth/login": {
+        "/auth/login": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Normal giriş",
                 "description": "Email ve şifre ile kullanıcı girişi yapar",
-                "operationId": "f77777235d676b651c9465807d8f9485",
+                "operationId": "1ff9c65c5cd1a8e0786e318eed856972",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -484,14 +484,14 @@
                 }
             }
         },
-        "/api/auth/logout": {
+        "/auth/logout": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Çıkış",
                 "description": "Kullanıcı çıkışı yapar ve aktif token'ı iptal eder",
-                "operationId": "c4b3c6f1776909e546a421283c044ac3",
+                "operationId": "eae6a8251a6469bbabe454860f64cf37",
                 "responses": {
                     "200": {
                         "description": "Çıkış başarılı",

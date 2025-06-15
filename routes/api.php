@@ -22,6 +22,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Debug test endpoint
+Route::get('/debug-test', function () {
+    $data = [
+        'message' => 'Debug test endpoint',
+        'timestamp' => now(),
+        'server_info' => [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+        ]
+    ];
+
+    // Bu satırda breakpoint koyabilirsiniz
+    return response()->json($data);
+});
+
 // Authentication Routes
 Route::prefix('auth')->group(function () {
     Route::post('/social-login', [AuthController::class, 'socialLogin'])->name('auth.social-login');

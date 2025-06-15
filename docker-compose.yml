@@ -1,50 +1,54 @@
-version: '3'
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: vocabvault
-    container_name: vocabvault-app
-    restart: unless-stopped
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www
-    networks:
-      - vocabvault
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: vocabvault
+        container_name: vocabvault-app
+        restart: unless-stopped
+        working_dir: /var/www
+        environment:
+            - XDEBUG_MODE=debug
+            - XDEBUG_CONFIG=client_host=host.docker.internal client_port=9003
+        volumes:
+            - ./:/var/www
+        ports:
+            - "9003:9003"
+        networks:
+            - vocabvault
 
-  db:
-    image: mysql:8.0
-    container_name: vocabvault-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: vocab_vault
-      MYSQL_ROOT_PASSWORD: root
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-      - dbdata:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - vocabvault
+    db:
+        image: mysql:8.0
+        container_name: vocabvault-db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: vocab_vault
+            MYSQL_ROOT_PASSWORD: root
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            - dbdata:/var/lib/mysql
+        ports:
+            - "3307:3306"
+        networks:
+            - vocabvault
 
-  nginx:
-    image: nginx:alpine
-    container_name: vocabvault-nginx
-    restart: unless-stopped
-    ports:
-      - "8000:80"
-    volumes:
-      - ./:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d
-    networks:
-      - vocabvault
+    nginx:
+        image: nginx:alpine
+        container_name: vocabvault-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+            - vocabvault
 
 networks:
-  vocabvault:
-    driver: bridge
+    vocabvault:
+        driver: bridge
 
 volumes:
-  dbdata:
+    dbdata:

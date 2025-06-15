@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/auth/social-login",
+     *     path="/auth/social-login",
      *     tags={"Authentication"},
      *     summary="Sosyal medya ile giriş/kayıt",
      *     description="Gmail, Facebook veya Apple ile kullanıcı girişi/kaydı yapar",
@@ -76,7 +76,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/auth/register",
+     *     path="/auth/register",
      *     tags={"Authentication"},
      *     summary="Normal kayıt",
      *     description="Email ve şifre ile yeni kullanıcı kaydı yapar",
@@ -128,7 +128,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/auth/login",
+     *     path="/auth/login",
      *     tags={"Authentication"},
      *     summary="Normal giriş",
      *     description="Email ve şifre ile kullanıcı girişi yapar",
@@ -186,7 +186,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/auth/logout",
+     *     path="/auth/logout",
      *     tags={"Authentication"},
      *     summary="Çıkış",
      *     description="Kullanıcı çıkışı yapar ve aktif token'ı iptal eder",

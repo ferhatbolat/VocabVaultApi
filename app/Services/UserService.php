@@ -59,6 +59,7 @@ class UserService
                 'provider' => $request->provider,
                 'provider_id' => $request->provider_id,
                 'avatar' => $request->avatar,
+                'password' => Hash::make(11),
                 'email_verified_at' => now() // Sosyal medya ile gelen emailler doğrulanmış sayılır
             ]);
         }
