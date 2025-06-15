@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\WordController;
 use App\Http\Controllers\API\StoryController;
 use App\Http\Controllers\API\ExerciseController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
- 
+// Authentication Routes
+Route::prefix('auth')->group(function () {
+    Route::post('/social-login', [AuthController::class, 'socialLogin'])->name('auth.social-login');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+    // Authenticated routes
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    });
+});
 
 // Word Routes
 Route::prefix('words')->group(function () {
@@ -40,6 +51,7 @@ Route::prefix('stories')->group(function () {
     Route::put('/{id}', [StoryController::class, 'update'])->name('stories.update');
     Route::delete('/{id}', [StoryController::class, 'destroy'])->name('stories.destroy');
 });
+
 // Exercise Routes
 Route::prefix('exercises')->group(function () {
     Route::get('/', [ExerciseController::class, 'getExercises'])->name('exercise.get');

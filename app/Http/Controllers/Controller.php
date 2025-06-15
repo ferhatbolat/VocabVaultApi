@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *     version="1.0.0",
  *     title="VocabVault API Documentation",
- *     description="API documentation for Word and Story management in VocabVault application",
+ *     description="API documentation for VocabVault application with Authentication, Word and Story management",
  *     @OA\Contact(
  *         email="your-email@example.com",
  *         name="API Support"
@@ -24,6 +24,13 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Server(
  *     url="/api",
  *     description="VocabVault API Server"
+ * )
+ * @OA\SecurityScheme(
+ *     securityScheme="sanctum",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     description="Laravel Sanctum token authentication"
  * )
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",

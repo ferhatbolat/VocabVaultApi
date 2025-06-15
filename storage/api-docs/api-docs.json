@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "VocabVault API Documentation",
-        "description": "API documentation for Word and Story management in VocabVault application",
+        "description": "API documentation for VocabVault application with Authentication, Word and Story management",
         "contact": {
             "name": "API Support",
             "email": "your-email@example.com"
@@ -20,13 +20,530 @@
         }
     ],
     "paths": {
+        "/api/auth/social-login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Sosyal medya ile giriş/kayıt",
+                "description": "Gmail, Facebook veya Apple ile kullanıcı girişi/kaydı yapar",
+                "operationId": "4feb4ba82b42302797bb5d15a96959aa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "name",
+                                    "provider",
+                                    "provider_id"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Kullanıcı email adresi",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@gmail.com"
+                                    },
+                                    "name": {
+                                        "description": "Kullanıcı adı",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "provider": {
+                                        "description": "Sosyal medya sağlayıcısı",
+                                        "type": "string",
+                                        "enum": [
+                                            "google",
+                                            "facebook",
+                                            "apple"
+                                        ],
+                                        "example": "google"
+                                    },
+                                    "provider_id": {
+                                        "description": "Sosyal medya platform kullanıcı ID'si",
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "avatar": {
+                                        "description": "Profil resmi URL'si (opsiyonel)",
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/avatar.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Giriş başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@gmail.com"
+                                                },
+                                                "provider": {
+                                                    "type": "string",
+                                                    "example": "google"
+                                                },
+                                                "provider_id": {
+                                                    "type": "string",
+                                                    "example": "123456789"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/avatar.jpg"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "description": "API erişim token'ı",
+                                            "type": "string",
+                                            "example": "1|abcdefghijklmnopqrstuvwxyz"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasyon hatası",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Normal kayıt",
+                "description": "Email ve şifre ile yeni kullanıcı kaydı yapar",
+                "operationId": "eb3623f9bcd09a1dacbefaac07aed1bb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Kullanıcı adı",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "Email adresi",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Şifre (minimum 8 karakter)",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Şifre onayı",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Kayıt başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration successful"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "provider": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "provider_id": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "description": "API erişim token'ı",
+                                            "type": "string",
+                                            "example": "2|abcdefghijklmnopqrstuvwxyz"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasyon hatası",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email has already been taken."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Normal giriş",
+                "description": "Email ve şifre ile kullanıcı girişi yapar",
+                "operationId": "f77777235d676b651c9465807d8f9485",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email adresi",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Şifre",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Giriş başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "provider": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "provider_id": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-01-01T00:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "description": "API erişim token'ı",
+                                            "type": "string",
+                                            "example": "3|abcdefghijklmnopqrstuvwxyz"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Geçersiz kimlik bilgileri",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasyon hatası",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Çıkış",
+                "description": "Kullanıcı çıkışı yapar ve aktif token'ı iptal eder",
+                "operationId": "c4b3c6f1776909e546a421283c044ac3",
+                "responses": {
+                    "200": {
+                        "description": "Çıkış başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Yetkisiz erişim",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/exercises": {
             "get": {
                 "tags": [
                     "Exercises"
                 ],
                 "summary": "Get random exercise questions",
-                "operationId": "e403746fa65c82d6f4967a4e35dfdc42",
+                "operationId": "dbdb1326c4f8ab63eb64d20d94b518b2",
                 "parameters": [
                     {
                         "name": "language",
@@ -68,7 +585,7 @@
                     "Stories"
                 ],
                 "summary": "List all stories",
-                "operationId": "2d1c549971d4314da45dc5ea797c02f0",
+                "operationId": "6967b324ba45fc1565abb6a3e73b5b75",
                 "responses": {
                     "200": {
                         "description": "List of all stories",
@@ -112,7 +629,7 @@
                     "Stories"
                 ],
                 "summary": "Create a new story",
-                "operationId": "f51118e4ce16040aa5bf0bb08cdc904d",
+                "operationId": "9b119c7c2514b2ad1af74fa7e4da93eb",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -179,7 +696,7 @@
                     "Stories"
                 ],
                 "summary": "Get a specific story",
-                "operationId": "3a387fa38d7637bd71d6a25d497520e5",
+                "operationId": "a8c1e0e204a15333a1b619df6adc0774",
                 "parameters": [
                     {
                         "name": "id",
@@ -234,7 +751,7 @@
                     "Stories"
                 ],
                 "summary": "Update a specific story",
-                "operationId": "1f609948640efd0c2c6edfd1c7cd3523",
+                "operationId": "344ff8794f053789492786e1924c0560",
                 "parameters": [
                     {
                         "name": "id",
@@ -284,7 +801,7 @@
                     "Stories"
                 ],
                 "summary": "Delete a specific story",
-                "operationId": "d63f4de41b8002b968d45611f58f2b57",
+                "operationId": "816e5d375454af76f09f201181300cb9",
                 "parameters": [
                     {
                         "name": "id",
@@ -312,7 +829,7 @@
                     "Words"
                 ],
                 "summary": "List all words",
-                "operationId": "6a7339184b38b143b73423dc8b4e2fba",
+                "operationId": "88dc961557d9c1eeef086be22ca53dc0",
                 "responses": {
                     "200": {
                         "description": "List of all words",
@@ -356,7 +873,7 @@
                     "Words"
                 ],
                 "summary": "Create a new word",
-                "operationId": "259eb2d60b55a2ef396042401fcb4452",
+                "operationId": "6b390ad44c2208a7596d219b522eb426",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -423,7 +940,7 @@
                     "Words"
                 ],
                 "summary": "Get a specific word",
-                "operationId": "5216303d35bbdcd964c83f2b22cfd3e3",
+                "operationId": "9e403941cfe70000c94370674004b7c4",
                 "parameters": [
                     {
                         "name": "id",
@@ -478,7 +995,7 @@
                     "Words"
                 ],
                 "summary": "Update a specific word",
-                "operationId": "96dc85f083cb5cf8a68b301c5fb06b52",
+                "operationId": "177b33b8ef55ec16b4b44d430123a40d",
                 "parameters": [
                     {
                         "name": "id",
@@ -528,7 +1045,7 @@
                     "Words"
                 ],
                 "summary": "Delete a specific word",
-                "operationId": "442396037508bb61c3530a0371b3ec10",
+                "operationId": "9bab18bbe8a7bb5a24f619c9b38c73da",
                 "parameters": [
                     {
                         "name": "id",
@@ -553,6 +1070,12 @@
     },
     "components": {
         "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Laravel Sanctum token authentication",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
             "bearerAuth": {
                 "type": "http",
                 "in": "header",
@@ -561,6 +1084,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Authentication",
+            "description": "Kullanıcı kimlik doğrulama işlemleri"
+        },
         {
             "name": "Exercises",
             "description": "API Endpoints for Exercise Management"
